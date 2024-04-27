@@ -1,1 +1,37 @@
-test
+
+- JDBC (Java DataBase Connectivity ) 란? 
+Java DataBase 를 연결하는 기술
+
+- maven repository 란? 
+자바에서 사용할 라이브러리 들을 다 저장한 것 
+
+
+[기존 코드와 실전 코드의 차이]
+
+1. 기존 코드 
+ArrayList 에 저장하고 있음 
+RAM 은 휘발성 메모리라 끄면 다 날라가서 
+DAO 내의 addCafe 기능의 내용이 DAMS 로 데이터를 저장하는 코드를 변경되어야 함 !
+
+2. 실전 코드 
+DBMS (localhost - 1521) 에 연결시도 
+OJDBC (Oracle Java DataBase Connectivity) 라이브러리 
+
+💡 jdbc:oracle:thin:@ 우리가 사용할 타입 (ip 주소 , 포트번호 , db 이름)
+
+//DBMS 에 접속,연결 
+Connection con = DriverManager.getConnection(dbURL, dbID, dbPWL); 
+		
+//Query 쓸 수 있는 편집기 객체 확보  
+Statement stat = con.createStatement(); 
+	
+//Insert 입력 
+String sql = "insert into cafe values(cafe_seq.nextval,'Americano',2000)";
+int result = stat.executeUpdate(sql);
+
+//전달된 값이 0 보다 크면 성공이고 실패면 예외전가로 나감 
+if(result > 0) {
+	System.out.println("입력 성공!");
+}
+//con.commit(); //자동 ⭕️ `DB` 에서는 자동이 아니므로 ❌ 커밋 해야 함
+con.close(); //`con.close()`  은 무조건 꺼줘야 한다. Connection하는 순간 DBMS 와 통로가 생기는데 안 끄면 DBMS 는 계속 열려있다
