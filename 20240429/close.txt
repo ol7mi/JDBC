@@ -1,0 +1,14 @@
+- **`ResultSet`**
+- **`Connection`**
+- **`Statement`**
+에 대하여 close() 무조건 닫아주는 코드를 짜야 한다
+
+- 예전 방식 -
+try ~ catch
+finally
+
+- 지금 방식 -
+try ~ with ~ resource 위 방식을 편하게 만들어주는 문법
+- try() 소괄호 안에 close 가 필요한 인스턴스만 넣을 수 있다 (무조건 close 된다)
+- 뒤에 catch 쓰면 close 하고 넘어가는 것!
+- catch 말고 다른 걸 작성하고 싶다면 finally!
