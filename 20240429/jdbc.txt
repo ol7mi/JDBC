@@ -1,0 +1,37 @@
+ResultSet 이란? 
+쿼리 전달 후 발생한 결과의 주소를 가지는 인스턴스다
+테이블에 정보를 모두 담고 있지 않고 ❌ 그저 주소를 가리키고 있다  
+(데이터들을 행 단위로 한줄씩 가져올 수 있다)
+con.close() 전까지의 DBMS 테이블을 가리키는 주소 값이다
+        
+        
+        
+String sql = "select * from cafe";
+
+ResultSet rs = stat.executeQuery(sql);
+rs.next(); //next - 아래로 한칸씩 내려줌
+
+// 첫번째 행 
+int id = rs.getInt("id");
+String name = rs.getString("name"); //rs.get.String(2);
+int price = rs.getInt("price");
+System.out.println(id + ":"+name+":"+ price);
+
+// 두번째 행 
+rs.next();
+id = rs.getInt("id");
+name = rs.getString("name"); //rs.get.String(2);
+price = rs.getInt("price");
+System.out.println(id + ":"+name+":"+ price);
+
+
+// 위 반복되는 코드를 아래 while 문으로 가져올 수 있다
+while(rs.next()) { 
+
+    int id = rs.getInt("id");
+    String name = rs.getString("name");
+    int price = rs.getInt("price");
+    
+    System.out.println(id + ":"+name+":"+ price);
+    
+}
