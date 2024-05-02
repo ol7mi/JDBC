@@ -1,0 +1,43 @@
+[DBCP]
+DataBase Connection Pool
+서비스에 Connection 을 요구하는 동시접속자가 과포화 되었을 때, DBMS 의 다운을 방지하는 기술 
+미리 생성된 인스턴스에 대여 및 반환기법으로, 접속자 대기 시간을 발생할 수 있으나, DBMS 는 정상운행 됨 
+대기시간을 주는 로직으로 바뀐다
+	
+	-- 기존 코드 
+    private Connection getConnection () throws Exception {
+		String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
+		String dbID = "kedu";
+		String dbPW = "kedu";
+		return DriverManager.getConnection(dbURL, dbPW, dbID); 
+	}
+
+	private static BasicDataSource bds = new BasicDataSource(); 
+
+    -- 변경 코드 1
+	public ContactDAO() {
+		bds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		bds.setUsername("kedu");
+		bds.setPassword("kedu");
+		
+		bds.setInitialSize(20); 
+	}
+
+	private Connection getConnection () throws Exception{
+		return bds.getConnection();
+	}
+
+	-- 변경 코드 2 
+	//static 으로 전 지역 (DAO)에서 사용할 수 있게끔
+	private static BasicDataSource bds = new BasicDataSource(); //라이브러리 
+	
+	private ContactDAO() {
+		bds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		bds.setUsername("kedu");
+		bds.setPassword("kedu");	
+		bds.setInitialSize(50); //size 를 크게 주면 Connection 크게 주고 적게 주면 적게 줌 
+	}
+	
+	private Connection getConnection () throws Exception{
+		return bds.getConnection();
+	}
